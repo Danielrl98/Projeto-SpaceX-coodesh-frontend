@@ -4,59 +4,33 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { GraphicPizzaContent } from "./GraphicPizzaContent";
 import { Data } from "./interface";
+import axios from 'axios'
 
-
-export const GraphicPizzaFC = () => {
+export const GraphicPizza = () => {
 
     const [dados, setdados] = useState(Array<Data>);
     const [successLaunches,setSuccessLaunches] = useState(0)
     const [failLaunches,setFailLaunches] = useState(0)
-  
+    
+
     ChartJS.register(ArcElement, Tooltip, Legend);
+
+    let c = 0
+   
+    async function requestApiLaunchesState(){
+
+      const result = await axios.get('http://localhost:8080/launches/stats')
+
+      console.log(result.data)
+      
+      if(c==0){
   
-    useEffect(() => {
-      setdados([
-        {
-          date: "2006-03-24",
-          name: "Falcon 1",
-          rocket: "5e9d0d95eda69955f709d1eb",
-          success: 2,
-          fail: 3,
-          cores: {
-            reused: 0,
-            flight: 5,
-            hexadecimal: "#000",
-          },
-          status: 200,
-        },
-        {
-          date: "2010-06-04",
-          name: "Falcon 9",
-          rocket: "5e9d0d95eda69973a809d1ec",
-          success: 176,
-          fail: 2,
-          cores: {
-            reused: 114,
-            flight: 292,
-            hexadecimal: "#ff0",
-          },
-          status: 200,
-        },
-        {
-          date: "2018-02-06",
-          name: "Falcon Heavy",
-          rocket: "5e9d0d95eda69974db09d1ed",
-          success: 3,
-          fail: 0,
-          cores: {
-            reused: 0,
-            flight: 3,
-            hexadecimal: "#f00",
-          },
-          status: 200,
-        },
-      ]);
-    }, []);
+        setdados(result.data)
+        c=c+1 
+      }
+    
+    }
+   
     function reduceArrays(array1: Array<number>, array2: Array<number>) {
       const result = [];
   
@@ -117,6 +91,10 @@ export const GraphicPizzaFC = () => {
   
       return <Pie data={data} />;
     };
+
+    useEffect(() => {
+      requestApiLaunchesState()
+    }, []);
 
     return(
         <Fragment>

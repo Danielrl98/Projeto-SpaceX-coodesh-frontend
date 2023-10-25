@@ -1,9 +1,10 @@
 import { Nav } from './components/nav/navContent'
-import { GraphicPizzaFC } from './layouts/grapichs/graphicPizza/GraphicPizza'
-
+import { GraphicPizza } from './layouts/grapichs/graphicPizza/GraphicPizza'
+import { GrafichBar } from './layouts/grapichs/graphicBar/GraphicBar'
 export const Components= {
     Nav: Nav
 }
 export const Layouts = {
-    GraphicPizzaFC
+    GraphicPizza,
+    GrafichBar
 }

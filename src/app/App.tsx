@@ -9,8 +9,8 @@ export default function App() {
       <div>
         <Components.Nav></Components.Nav>
         <Graphics>
-          < Layouts.GraphicPizzaFC ></Layouts.GraphicPizzaFC>
-          < Layouts.GraphicPizzaFC ></Layouts.GraphicPizzaFC>
+          <Layouts.GraphicPizza ></Layouts.GraphicPizza>
+          <Layouts.GrafichBar></Layouts.GrafichBar>
         </Graphics>
       </div>
     </Fragment>

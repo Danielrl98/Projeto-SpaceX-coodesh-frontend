@@ -35,7 +35,7 @@ export const GraphicPizzaContent: React.FC<FormartFC> = ({
                 ))
               : "Carregando..."}
             <div>
-              {dados ? (
+              {successLaunches ? (
                 <div>
                   <h3>Resultado de lançamento:</h3>
                   <p>Sucesso:{successLaunches}%</p>
