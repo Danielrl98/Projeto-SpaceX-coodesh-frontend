@@ -1,0 +1,15 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    margin: 0 auto;
+    max-width: 100%;
+    width: 1240px;
+    background-color: #343A40 !important;
+}
+#root,body{
+    min-height: auto;
+    width: 100%;
+    font-family: 'Poppins';
+}
