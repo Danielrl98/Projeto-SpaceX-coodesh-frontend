@@ -12,6 +12,7 @@ export default function App() {
           <Layouts.GraphicPizza ></Layouts.GraphicPizza>
           <Layouts.GrafichBar></Layouts.GrafichBar>
         </Graphics>
+        <Layouts.Launches></Layouts.Launches>
       </div>
     </Fragment>
   );

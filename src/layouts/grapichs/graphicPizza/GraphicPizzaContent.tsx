@@ -6,14 +6,14 @@ interface FormartFC {
   dados: Array<Data>;
   successLaunches: number;
   failLaunches: number;
-  DoughnutChart: React.FC;
+  PiChar: React.FC;
 }
 
 export const GraphicPizzaContent: React.FC<FormartFC> = ({
   dados,
   successLaunches,
   failLaunches,
-  DoughnutChart,
+  PiChar,
 }) => {
   return (
     <Fragment>
@@ -47,7 +47,7 @@ export const GraphicPizzaContent: React.FC<FormartFC> = ({
             </div>
           </div>
           <div>
-            {dados ?  <DoughnutChart /> :"Carregando..." }
+            {dados ?  <PiChar /> :"Carregando..." }
           </div>
         </div>
       </Styled.Card>

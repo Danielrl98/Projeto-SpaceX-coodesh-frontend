@@ -1,94 +1,66 @@
-import { Fragment,useEffect,useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Styled } from ".";
 import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-  } from 'chart.js';
-  import { Bar } from 'react-chartjs-2';
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 
-  ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-  );
-import axios from 'axios'
+import { Bar } from "react-chartjs-2";
 
-/*interface Data{
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+import axios from "axios";
 
-}*/
-export function GrafichBarContent(){
 
-    const [dados, setdados] = useState([]);
+export function GrafichBarContent() {
+  const [dados, setDados] = useState([]);
+  const [dados2, setDados2] = useState([]);
 
-    async function requestApiLaunchesState(){
+  async function requestApiLaunchesState() {
+    const result = await axios.get(
+      "http://localhost:8080/launches/stats?full=all"
+    );
 
-      const result = await axios.get('http://localhost:8080/launches/stats?full=all')
 
-      console.log(result.data)
-    
-      setdados(result.data)
-     
-    }
+    const grupos = {};
 
-    useEffect( () => {
-        requestApiLaunchesState()
-    },[])
-
-     const options = {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top' as const,
-          },
-          title: {
-            display: false,
-            text: 'Chart.js Bar Chart',
-          },
-        },
-      };
-      
- 
-
-      function BarChart(){
-
-        const labels = dados.map((e) =>e.date)
-        const data = []
-        dados.map((element,i) => {
-
-        data.push({
-                    label: element.name,
-                    data: [0,1,element.flight],
-                    backgroundColor:  element.cores.hexadecimal,
-                  }      
-        )
-        
-        })
-        const newData = {
-            labels:labels,
-            datasets:data
-        }
-        console.log({newData:newData})
-       return <Bar options={options} data={newData} />
-
+    result.data.forEach((objeto) => {
+      const ano = objeto.date.split("-")[0];
+      if (!grupos[ano]) {
+        grupos[ano] = [];
       }
+      grupos[ano].push(objeto);
+    });
+
+    setDados(Object.values(grupos));
+console.log(Object.values(grupos))
+
+  }
+
+  useEffect(() => {
+    requestApiLaunchesState();
+   
+  }, []);
 
 
-    return(
-        <Fragment>
-            <Styled.Card>
-                { dados.length !== 0 ? (
-                    <BarChart />
-                ):'Carregando..'}
-               
-            </Styled.Card>
-        </Fragment>
-    )
+
+  return (
+    <Fragment>
+      <Styled.Card>
+       
+      </Styled.Card>
+    </Fragment>
+  );
+  
 }

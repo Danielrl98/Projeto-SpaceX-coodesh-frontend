@@ -5,6 +5,7 @@ import { Pie } from "react-chartjs-2";
 import { GraphicPizzaContent } from "./GraphicPizzaContent";
 import { Data } from "./interface";
 import axios from 'axios'
+import  debounce  from 'lodash/debounce'
 
 export const GraphicPizza = () => {
 
@@ -12,24 +13,22 @@ export const GraphicPizza = () => {
     const [successLaunches,setSuccessLaunches] = useState(0)
     const [failLaunches,setFailLaunches] = useState(0)
     
+    const debouncedSearch = debounce(() => {
+      
+        axios.get(`http://localhost:8080/launches/stats`)
+        .then((response) => {
+         
+          setdados(response.data)
+         
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    
+  }, 1000); 
 
     ChartJS.register(ArcElement, Tooltip, Legend);
 
-    let c = 0
-   
-    async function requestApiLaunchesState(){
-
-      const result = await axios.get('http://localhost:8080/launches/stats')
-
-      console.log(result.data)
-      
-      if(c==0){
-  
-        setdados(result.data)
-        c=c+1 
-      }
-    
-    }
    
     function reduceArrays(array1: Array<number>, array2: Array<number>) {
       const result = [];
@@ -67,7 +66,7 @@ export const GraphicPizza = () => {
     }
     
   
-    const DoughnutChart = () => {
+    const PiChar= () => {
       const name = dados.map((e) => e.name);
       const success = dados.map((e) => e.success);
       const fail = dados.map((e) => e.fail);
@@ -93,12 +92,13 @@ export const GraphicPizza = () => {
     };
 
     useEffect(() => {
-      requestApiLaunchesState()
+    /*  requestApiLaunchesState()*/
+      debouncedSearch()
     }, []);
 
     return(
         <Fragment>
-          <GraphicPizzaContent dados={dados} successLaunches={successLaunches} failLaunches={failLaunches} DoughnutChart={DoughnutChart }/>
+          <GraphicPizzaContent dados={dados} successLaunches={successLaunches} failLaunches={failLaunches} PiChar={PiChar}/>
         </Fragment>
     )
 }
